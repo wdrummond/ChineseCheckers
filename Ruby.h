@@ -2,6 +2,7 @@
 #define _RUBY_H_
 
 #include <ai_ccheckers.h>
+#include "utility"
 
 namespace wsd
 {
@@ -10,8 +11,11 @@ namespace wsd
   public:
     Ruby();
     ~Ruby();
-    int Max(int player, ai::CCheckers::BasicBoard b, const std::vector<ai::CCheckers::MoveData> & moves);
-    int Min(int player, ai::CCheckers::BasicBoard b);
+    double evaluate(int player, int opponent, ai::CCheckers::BasicBoard b);
+    struct result Max(int player, int opponent, ai::CCheckers::BasicBoard b, int d);
+    struct result Min(int player, int opponent, ai::CCheckers::BasicBoard b, int d);
+    //std::pair<int, double> Max(int player, ai::CCheckers::BasicBoard b, const std::vector<ai::CCheckers::MoveData> & moves, int d);
+    //std::pair<int, double> Min(int player, ai::CCheckers::BasicBoard b, int d);
     virtual ai::Agent::Action * Program(const ai::Agent::Percept * percept);
   protected:
   private:
