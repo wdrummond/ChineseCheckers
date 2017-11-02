@@ -52,7 +52,7 @@ namespace wsd
       int opponent = (player == 1) ? 2 : 1;
       double alpha = -1e5;
       double beta = 1e5;
-      struct result results = Max(player, opponent, board, 5, alpha, beta);  //Note this is the agents function
+      struct result results = Max(player, opponent, board, 7, alpha, beta);  //Note this is the agents function
 
       if(moves.size() > 0)
         {
@@ -85,17 +85,17 @@ namespace wsd
       	switch(player)
         {
         	case 1:
-        	std::sort(moves.begin(), moves.end(), Sorter());
+        	std::sort(moves.begin(), moves.end(), Sorter1());
         	break;
         	case 2:
-        	std::sort(moves.begin(), moves.end(), Sorter1());
+        	std::sort(moves.begin(), moves.end(), Sorter());
         	break;
         	default:
         	// FIXME add calculation for each player
         	std::sort(moves.begin(), moves.end(), Sorter());
         	break;
         }
-        std::sort(moves.begin(), moves.end(), Sorter());
+        //std::sort(moves.begin(), moves.end(), Sorter());
 
         // unsigned int i= 0;
         // unsigned int size = moves.size();

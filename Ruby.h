@@ -15,7 +15,7 @@ namespace wsd
     double evaluate(int player, int opponent, ai::CCheckers::BasicBoard& b);
     struct result Max(int player, int opponent, ai::CCheckers::BasicBoard& b, int d, double alpha, double beta);
     struct result Min(int player, int opponent, ai::CCheckers::BasicBoard& b, int d, double alpha, double beta);
-    std::vector<ai::CCheckers::MoveData> & sortmoves(std::vector<ai::CCheckers::MoveData> & moves);
+    //std::vector<ai::CCheckers::MoveData> & sortmoves(std::vector<ai::CCheckers::MoveData> & moves);
     virtual ai::Agent::Action * Program(const ai::Agent::Percept * percept);
   protected:
   private:
