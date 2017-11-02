@@ -18,6 +18,15 @@ namespace wsd
     }
   };
 
+  struct Sorter1 {
+    bool operator()(const ai::CCheckers::MoveData& m1, const ai::CCheckers::MoveData& m2) const {
+      int end_y1 = m1.to_y - m1.from_y;
+      int end_y2 = m2.to_y - m2.from_y;
+
+      return end_y1 > end_y2;
+    }
+  };
+
 	Ruby::Ruby()
     {
       SetName("Ruby");
@@ -38,7 +47,7 @@ namespace wsd
       int player = atoi(percept->GetAtom("PLAYER_NUMBER").GetValue().c_str());
 
       std::vector<ai::CCheckers::MoveData> & moves = board.DetermineLegalMoves(player);
-      std::sort(moves.begin(), moves.end(), Sorter());
+      //std::sort(moves.begin(), moves.end(), Sorter());
 
       int opponent = (player == 1) ? 2 : 1;
       double alpha = -1e5;
@@ -73,7 +82,41 @@ namespace wsd
       	result res;
       	res.hueristic = -1e5;
       	std::vector<ai::CCheckers::MoveData> & moves = b.DetermineLegalMoves(player);
+      	switch(player)
+        {
+        	case 1:
+        	std::sort(moves.begin(), moves.end(), Sorter());
+        	break;
+        	case 2:
+        	std::sort(moves.begin(), moves.end(), Sorter1());
+        	break;
+        	default:
+        	// FIXME add calculation for each player
+        	std::sort(moves.begin(), moves.end(), Sorter());
+        	break;
+        }
         std::sort(moves.begin(), moves.end(), Sorter());
+
+        // unsigned int i= 0;
+        // unsigned int size = moves.size();
+
+        // #define loop(i,size) for(i; i < size; i++);
+        // loop(i, size)
+        //     ai::CCheckers::BasicBoard b1(b);
+        //     b1.Move(player, moves[i], 0);
+
+        //     result o_res = Min(player, opponent, b1, d, alpha, beta);
+
+        //     if (o_res.hueristic > res.hueristic && o_res.hueristic > alpha) 
+        //     {
+        //         alpha = o_res.hueristic;
+        //         res.hueristic = o_res.hueristic;
+        //         res.move_choice = i;
+        //     }
+
+        //     if (res.hueristic > beta) {
+        //         break;
+        //     }
 
       	for(unsigned int i=0; i<moves.size(); i++)
       	{
@@ -88,7 +131,7 @@ namespace wsd
       			res.move_choice = i;
       		}
 
-      		if (alpha >= beta) {
+      		if (res.hueristic > beta) {
       			break;
       		}
 
@@ -110,7 +153,20 @@ namespace wsd
       	result res;
       	res.hueristic = 1e5;
       	std::vector<ai::CCheckers::MoveData> & o_moves = b.DetermineLegalMoves(opponent);
-        std::sort(o_moves.begin(), o_moves.end(), Sorter());
+        //std::sort(o_moves.begin(), o_moves.end(), Sorter1());
+        switch(player)
+        {
+        	case 1:
+        	std::sort(o_moves.begin(), o_moves.end(), Sorter());
+        	break;
+        	case 2:
+        	std::sort(o_moves.begin(), o_moves.end(), Sorter1());
+        	break;
+        	default:
+        	// FIXME add calculation for each player
+        	std::sort(o_moves.begin(), o_moves.end(), Sorter());
+        	break;
+        }
 
       	for(unsigned int i=0; i<o_moves.size(); i++) 
       	{
@@ -125,7 +181,7 @@ namespace wsd
       			  res.move_choice = i;
       		}
 
-      		if (beta <= alpha) {
+      		if (res.hueristic < alpha) {
       			break;
       		}     
 
@@ -134,12 +190,12 @@ namespace wsd
       	return res;
     }
 
-    std::vector<ai::CCheckers::MoveData> & Ruby::sortmoves(std::vector<ai::CCheckers::MoveData> & moves) {
-      for(unsigned int i=0; i<moves.size(); i++)
-      {
-        //
-      }
-      return moves;
-    }
+    // std::vector<ai::CCheckers::MoveData> & Ruby::sortmoves(std::vector<ai::CCheckers::MoveData> & moves) {
+    //   for(unsigned int i=0; i<moves.size(); i++)
+    //   {
+    //     //
+    //   }
+    //   return moves;
+    // }
 
 }
